@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cotizador GTC Shop</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #f4f4f4;
+      padding: 30px;
+    }
+    h1 {
+      color: #4b0082;
+    }
+    label, input, select, textarea {
+      display: block;
+      margin-top: 10px;
+      width: 100%;
+    }
+    button {
+      margin-top: 20px;
+      background-color: #4b0082;
+      color: white;
+      padding: 10px;
+      border: none;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>Solicitá tu cotización</h1>
+
+  <form id="cotizadorForm">
+    <label>Nombre y Apellido:</label>
+    <input type="text" name="nombre" required />
+
+    <label>Empresa:</label>
+    <input type="text" name="empresa" required />
+
+    <label>Medio de contacto:</label>
+    <input type="text" name="contacto" required />
+
+    <label>Rubro:</label>
+    <input type="text" name="rubro" required />
+
+    <label>Productos:</label>
+    <select name="producto" required>
+      <option value="">Elegí un producto</option>
+      <option value="GT51">GT51</option>
+      <option value="GT52">GT52</option>
+      <option value="Combo GT51 + GT52">Combo GT51 + GT52</option>
+    </select>
+
+    <label>Cantidad:</label>
+    <input type="number" name="cantidad" required />
+
+    <button type="submit">Enviar cotización</button>
+  </form>
+
+  <script>
+    const webhookURL = "https://hook.us2.make.com/cqcj3ivo4bnpsgw1a7jvj36ffd6ttx9i"; // PONÉ TU URL DE WEBHOOK DE MAKE ACÁ
+
+    document.getElementById("cotizadorForm").addEventListener("submit", async function (e) {
+      e.preventDefault();
+      const formData = new FormData(this);
+      const data = {};
+      formData.forEach((value, key) => data[key] = value);
+
+      try {
+        await fetch(webhookURL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data)
+        });
+
+        // Redirigí a WhatsApp con los datos (opcional)
+        const mensaje = `Hola, quiero una cotización para el producto ${data.producto} (Cantidad: ${data.cantidad}). Soy ${data.nombre} de ${data.empresa}. Contacto: ${data.contacto}. Rubro: ${data.rubro}`;
+        const urlWhatsApp = `https://wa.me/5491154095537?text=${encodeURIComponent(mensaje)}`;
+        window.open(urlWhatsApp, "_blank");
+      } catch (error) {
+        alert("Error al enviar. Revisá conexión o el webhook.");
+        console.error(error);
+      }
+    });
+  </script>
+</body>
+</html>
+
