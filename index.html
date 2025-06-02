@@ -1,0 +1,118 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Solicitar Cotización - GTC</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background-color: #f2f2f2;
+    }
+
+    h1 {
+      color: #333;
+      text-align: center;
+    }
+
+    form {
+      max-width: 500px;
+      margin: auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      margin-top: 20px;
+      width: 100%;
+      padding: 12px;
+      background-color: #009688;
+      color: white;
+      font-size: 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #00796b;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Solicitá tu cotización mayorista</h1>
+
+<form id="quoteForm">
+  <label for="empresa">Tipo de empresa</label>
+  <select id="empresa" required>
+    <option value="">Seleccioná una opción</option>
+    <option value="papelería">Papelería</option>
+    <option value="servicio técnico">Servicio técnico</option>
+    <option value="revendedor">Revendedor</option>
+    <option value="otro">Otro</option>
+  </select>
+
+  <label for="ubicacion">Ubicación</label>
+  <input type="text" id="ubicacion" placeholder="Provincia o ciudad" required>
+
+  <label for="producto">Productos de interés</label>
+  <textarea id="producto" rows="3" placeholder="Ej: Tintas Canon, toner HP 107A..." required></textarea>
+
+  <label for="nombre">Tu nombre</label>
+  <input type="text" id="nombre" required>
+
+  <label for="telefono">Teléfono con WhatsApp</label>
+  <input type="tel" id="telefono" required>
+
+  <button type="submit">Enviar por WhatsApp</button>
+</form>
+
+<script>
+  document.getElementById('quoteForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const empresa = document.getElementById('empresa').value;
+    const ubicacion = document.getElementById('ubicacion').value;
+    const producto = document.getElementById('producto').value;
+    const nombre = document.getElementById('nombre').value;
+    const telefono = document.getElementById('telefono').value;
+
+    const mensaje = encodeURIComponent(
+      `¡Hola! Quiero solicitar una cotización mayorista:
+
+` +
+      `📌 Empresa/Rubro: ${empresa}
+` +
+      `📍 Ubicación: ${ubicacion}
+` +
+      `📦 Productos: ${producto}
+` +
+      `🙋 Nombre: ${nombre}
+` +
+      `📞 WhatsApp: ${telefono}`
+    );
+
+    window.open(`https://wa.me/5491154095537?text=${mensaje}`, '_blank');
+  });
+</script>
+
+</body>
+</html>
